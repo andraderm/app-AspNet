@@ -1,0 +1,36 @@
+<div class="container">
+    
+    <div class="container">
+        <div class="row">
+            <div class="mr-auto">
+                <app-titulo [titulo]="titulo"></app-titulo>
+            </div> 
+            <div>
+                <button type="button" class="btn btn-success btn-sm mt-2" (click)="novoFuncionario()">Cadastrar funcionário</button>
+            </div>
+        </div>
+    </div>
+    
+    
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Sobrenome</th>
+                <th scope="col">Data de Admissão</th>
+                <th scope="col">Custo com VT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let funcionario of funcionarios">
+                <th scope="row">{{funcionario.id}}</th>
+                <td>{{funcionario.nome}}</td>
+                <td>{{funcionario.sobrenome}}</td>
+                <td>{{funcionario.dataAdmissao | date:'longDate'}}</td>
+                <td>{{funcionario.custoDiarioVT | currency: 'BRL' : 'symbol' : '1.2'}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
