@@ -1,6 +1,3 @@
-import { Setor } from './setor';
-import { Escala } from './Escala';
-
 export class Funcionario {
 
     id: number;

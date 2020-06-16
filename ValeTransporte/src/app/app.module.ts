@@ -5,6 +5,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,7 +39,8 @@ registerLocaleData(localePt);
       ReactiveFormsModule,
       ModalModule.forRoot(),
       BrowserAnimationsModule,
-      FontAwesomeModule
+      FontAwesomeModule,
+      BsDatepickerModule.forRoot(),
    ],
    providers: [
       { provide: LOCALE_ID, useValue: "pt" },

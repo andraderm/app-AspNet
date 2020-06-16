@@ -6,18 +6,20 @@
                 <app-titulo [titulo]="titulo"></app-titulo>
             </div> 
             <div>
-                <button type="button" class="btn btn-success btn-sm mt-2" (click)="novoFuncionario()">Cadastrar funcionário</button>
+                <button type="button" class="btn btn-success btn-sm mt-2" (click)="novoFuncionario(template)">Cadastrar funcionário</button>
             </div>
         </div>
     </div>
     
-    <table>
+    <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Sobrenome</th>
                 <th scope="col">Data de Admissão</th>
+                <th scope="col">Setor</th>
+                <th scope="col">Escala</th>
                 <th scope="col">Custo com VT</th>
                 <th scope="col"></th>
             </tr>
@@ -25,12 +27,14 @@
         <tbody>
             <tr *ngFor="let funcionario of funcionarios">
                 <th scope="row">{{funcionario.id}}</th>
+                <td>{{funcionario.nome}}</td>
+                <td>{{funcionario.sobrenome}}</td>
+                <td>{{funcionario.dataAdmissao | date:'longDate'}}</td>
                 <td>{{funcionario.setor}}</td>
                 <td>{{funcionario.escala}}</td>
-                <td>{{funcionario.dataAdmissao | date:'longDate'}}</td>
                 <td>{{funcionario.custoDiarioVT | currency: 'BRL' : 'symbol' : '1.2'}}</td>
                 <td>
-                    <button type="button" class="btn btn-success btn-sm mr-2" (click)="selecionarFuncionario(funcionario)"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-success btn-sm mr-2" (click)="selecionarFuncionario(funcionario, template)"><i class="fas fa-pen"></i></button>
                     <button type="button" class="btn btn-danger btn-sm" (click)="excluirFuncionario(funcionario.id)"><i class="far fa-trash-alt"></i></button>
                 </td>
             </tr>
@@ -40,7 +44,7 @@
 
 <ng-template #template>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Novo Funcionário</h4>
+        <app-titulo [titulo]="(funcionarioSelecionado.id === 0 ? 'Novo Funcionário' : 'Funcionário Cód.: ' + funcionarioSelecionado.id)"></app-titulo>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -49,53 +53,43 @@
         <form [formGroup]="funcionarioForm">
             <div class="form-group">
                 <label for="Nome">Nome:</label>
-                <input type="text" formControlName="nome" class="form-control">
+                <input type="text" placeholder="Nome" aria-label="Nome" formControlName="nome" class="form-control">
             </div>
             <div class="form-group">
                 <label for="Sobrenome">Sobrenome:</label>
-                <input type="text" formControlName="sobrenome" class="form-control">
+                <input type="text" placeholder="Sobrenome" aria-label="Sobrenome" formControlName="sobrenome" class="form-control">
             </div>
             <div class="form-group">
-                <label for="DataAdmissao">Data de Admissão:</label>
-                <input type="date" formControlName="dataAdmissao" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="Setor">Setor:</label>
-                <input type="text" formControlName="setor" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="Escala">Escala:</label><br>
-                <div class="row">
-                    <div class="col-sm-3">    
-                        <input type="radio" id="escala" formControlname="escala" value="5x1">
-                        <label for="5x1"><span>5x1</span></label>
-                    </div>
-                    <div class="col-sm-3">    
-                        <input type="radio" id="escala" formControlname="escala" value="6x1">
-                        <label for="6x1"><span>6x1</span></label>
-                    </div>
-                    <div class="col-sm-3">    
-                        <input type="radio" id="escala" formControlname="escala" value="6x2">
-                        <label for="6x2"><span>6x2</span></label>
-                    </div>
-                    <div class="col-sm-3">    
-                        <input type="radio" id="escala" formControlname="escala" value="12x36">
-                        <label for="12x36"><span>12x36</span></label>
-                    </div>
+                <label for="Sobrenome">Data de Admissão:</label>
+                <div class="input-group-append">
+                    <input type="date" placeholder="Data de Admissão" formControlName="dataAdmissao" class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }">
+                    <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                 </div>
             </div>
             <div class="form-group">
+                <label for="Setor">Setor:</label>
+                <select class="custom-select" formControlName="setorId">
+                    <option *ngFor="let setor of setores" [ngValue]="setor.id">{{setor.nome}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Setor">Escala de trabalho:</label>
+                <select class="custom-select" formControlName="escalaId">
+                    <option *ngFor="let escala of escalas" [ngValue]="escala.id">{{escala.escalaTrabalho}}</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="CustoVT">Custo Diário VT</label>
-                <input type="number" formControlName="custoDiarioVT" class="form-control">
+                <input type="number" placeholder="0,00" aria-label="Custo diário com vale transporte" formControlName="custoDiarioVT" class="form-control">
             </div>
             <div class="form-group">
                 <hr>
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-1" role="group" aria-label="First group">
-                        <button class="btn btn-sm btn-success" [disabled]="!funcionarioForm.valid" (click)="submit()">Salvar</button>            
+                        <button class="btn btn-sm btn-success" (click)="submit()">Salvar</button>            
                     </div>
                     <div class="btn-group mr-1 ml-2" role="group" aria-label="Second group">
-                        <button class="btn btn-sm btn-danger" (click)="modalRef.hide()">Fechar</button>            
+                        <button class="btn btn-sm btn-danger" aria-label="Close" (click)="modalRef.hide()">Fechar</button>            
                     </div>
                 </div>
             </div>
