@@ -1,0 +1,5 @@
+.relatorio {
+    display: grid;
+    align-content: end;
+    justify-items: center;
+}

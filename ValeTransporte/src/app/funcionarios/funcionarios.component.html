@@ -7,28 +7,27 @@
             <div>
                 <button type="button" class="btn btn-success btn-sm mt-2 mb-2" (click)="novoFuncionario(template)">Cadastrar Funcionário</button>
             </div>
-            <div>
-                <button type="button" class="btn btn-primary btn-sm m-2" (click)="lgModal.show()">Relatório de Despesas</button>
-            </div>
         </div>
     </div>
     
-    <table class="table">
+    <table class="table text-center">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Sobrenome</th>
-                <th scope="col">Data de Admissão</th>
-                <th scope="col">Setor</th>
-                <th scope="col">Escala</th>
-                <th scope="col">Custo com VT</th>
+                <th scope="col-md-1">#</th>
+                <th scope="col-md-2">Nome</th>
+                <th scope="col-md-2">Sobrenome</th>
+                <th scope="col-md-2">Data de Admissão</th>
+                <th scope="col-md-2">Setor</th>
+                <th scope="col-md-1">Escala</th>
+                <th scope="col-md-1">Custo com VT</th>
                 <th scope="col"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr *ngFor="let funcionario of funcionarios">
-                <th scope="row">{{funcionario.id}}</th>
+        <tbody *ngFor="let funcionario of funcionarios">
+            <tr>
+                <th scope="row">
+                    {{funcionario.id}}
+                </th>
                 <td>{{funcionario.nome}}</td>
                 <td>{{funcionario.sobrenome}}</td>
                 <td>{{funcionario.dataAdmissao | date:'longDate'}}</td>
@@ -49,10 +48,9 @@
 <ng-template #template_confirmacao>
     <div class="modal-body text-center">
         <p>Deseja excluir o funcionário {{funcionarioSelecionado.nome}} {{funcionarioSelecionado.sobrenome}}?</p>
-        <button type="button" class="btn btn-default" (click)="excluirFuncionario(funcionarioSelecionado.id)">Sim</button>
-        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Não</button>
+        <button type="button" class="btn btn-success m-2" (click)="excluirFuncionario(funcionarioSelecionado.id)">Sim</button>
+        <button type="button" class="btn btn-danger m-2" (click)="modalRef.hide()">Não</button>
     </div>        
-    <!-- (click)="excluirFuncionario(funcionario.id) -->
 </ng-template>
 
 
@@ -100,7 +98,7 @@
                 <hr>
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-1" role="group" aria-label="First group">
-                        <button class="btn btn-sm btn-success" [disabled]="!funcionarioForm.valid" (click)="submit()">Salvar</button>            
+                        <button class="btn btn-sm btn-success" [disabled]="!funcionarioForm.valid" (click)="enviar()">Salvar</button>            
                     </div>
                     <div class="btn-group mr-1 ml-2" role="group" aria-label="Second group">
                         <button class="btn btn-sm btn-danger" aria-label="Close" (click)="modalRef.hide()">Fechar</button>            
@@ -112,7 +110,7 @@
 </ng-template>
 
 
-<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+<!-- <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -126,4 +124,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

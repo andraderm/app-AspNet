@@ -9,7 +9,6 @@ import { Escala } from '../models/Escala';
 import { EscalaService } from '../escala/escala.service';
 
 @Component({
-
   selector: 'app-Funcionarios',
   templateUrl: './Funcionarios.component.html',
   styleUrls: ['./Funcionarios.component.css'],
@@ -144,7 +143,7 @@ export class FuncionariosComponent implements OnInit {
     this.funcionarioSelecionado = null;
   }
     
-  submit() {
+  enviar() {
     this.modalRef.hide();
     this.salvar(this.funcionarioForm.value);
   }

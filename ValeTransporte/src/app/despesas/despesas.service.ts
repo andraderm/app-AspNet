@@ -29,7 +29,4 @@ export class DespesasService {
     return this.http.post(`${this.baseUrl}/${ano}/${mes}`, null);
   }
 
-  put(ano: number, mes: number) {
-    return this.http.put(`${this.baseUrl}/${ano}/${mes}`, null);
-  }
 }

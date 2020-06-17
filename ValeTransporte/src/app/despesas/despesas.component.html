@@ -1,48 +1,74 @@
-<tabset #staticTabs>
-    <tab heading="Relatório Mensal">
-        <div class="container">
-            <div class="row mt-3">
-                <div class="col-sm-8">
-                    <form [formGroup]="relatorioForm">
-                        <div class="row">
-                            <div class="col">
-                                <label for="Mes">Mês:</label><br>
-                                <select class="custom-select" formControlName="mes">
-                                    <option value="1">Janeiro</option>
-                                    <option value="2">Fevereiro</option>
-                                    <option value="3">Março</option>
-                                    <option value="4">Abril</option>
-                                    <option value="5">Maio</option>
-                                    <option value="6">Junho</option>
-                                    <option value="7">Julho</option>
-                                    <option value="8">Agosto</option>
-                                    <option value="9">Setembro</option>
-                                    <option value="10">Outubro</option>
-                                    <option value="11">Novembro</option>
-                                    <option value="12">Dezembro</option>
-                                </select>
+<div class="container">
+    
+    <app-titulo [titulo]="titulo"></app-titulo>
+    
+    <tabset #staticTabs>
+        <tab heading="Relatório Mensal">
+            <div class="container">
+                <div class="row mt-3">
+                    <div class="col-sm-8">
+                        <form [formGroup]="relatorioForm">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="Mes">Mês:</label><br>
+                                    <select class="custom-select" formControlName="mes">
+                                        <option value="1">Janeiro</option>
+                                        <option value="2">Fevereiro</option>
+                                        <option value="3">Março</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Maio</option>
+                                        <option value="6">Junho</option>
+                                        <option value="7">Julho</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Setembro</option>
+                                        <option value="10">Outubro</option>
+                                        <option value="11">Novembro</option>
+                                        <option value="12">Dezembro</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="Ano">Ano:</label><br>
+                                    <input class="form-control" type="number" value="2020" formControlName="ano"> 
+                                </div>
                             </div>
-                            <div class="col">
-                                <label for="Ano">Ano:</label><br>
-                                <input class="form-control" type="number" value="2020" formControlName="ano"> 
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                    <div class="col-4 relatorio">
+                        <button class="btn btn-info btn-lg" (click)="gerar()">Gerar Relatório</button>
+                    </div>
                 </div>
-                <div class="col-sm-4 mt-3">
-                    <button class="btn btn-info" (click)="gerar()">Gerar Relatório</button>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div *ngIf="relatorioMes" class="input-group-append m-2">
+                            <h5>Valor Total: {{relatorioMes.despesaMensal | currency: 'BRL' : 'symbol' : '1.2'}}</h5>
+                        </div>          
+                    </div>
+                </div>
+                <div *ngIf="relatorioMes" class="row">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Funcionário</th>
+                                <th scope="col">Setor</th>
+                                <th scope="col">Fração da Despesa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let funcionario of funcionarios">
+                                <td>{{funcionario.nome}} {{funcionario.sobrenome}}</td>
+                                <td>{{funcionario.setor}}</td>
+                                <td scope="row">
+                                    <progressbar [value]="55"></progressbar>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-sm-12">
-                    <div class="input-group-append">
-                        <p *ngIf="relatorioMes">Despesa: {{relatorioMes.despesaMensal}}</p>
-                    </div>          
-                </div>
-            </div>
-        </div>
-    </tab>
-    <tab heading="Static Title 1">Static content 1
-        
-    </tab>
-</tabset>
+        </tab>
+        <tab heading="Static Title 1">Static content 1
+            
+        </tab>
+    </tabset>
+
+</div>
