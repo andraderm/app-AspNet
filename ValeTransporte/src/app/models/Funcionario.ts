@@ -15,9 +15,9 @@ export class Funcionario {
         this.nome = '';
         this.sobrenome = '';
         this.dataAdmissao = null;
-        this.custoDiarioVT = 0.0;
-        this.escalaId = 0;
-        this.setorId = 0;
+        this.custoDiarioVT = null;
+        this.escalaId = null;
+        this.setorId = null;
     }
 
 }

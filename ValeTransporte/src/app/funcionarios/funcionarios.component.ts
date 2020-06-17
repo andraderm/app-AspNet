@@ -7,6 +7,7 @@ import { Setor } from '../models/setor';
 import { SetorService } from '../setor/setor.service';
 import { Escala } from '../models/Escala';
 import { EscalaService } from '../escala/escala.service';
+
 @Component({
 
   selector: 'app-Funcionarios',
@@ -20,7 +21,7 @@ export class FuncionariosComponent implements OnInit {
   public funcionarioSelecionado: Funcionario;
   public funcionarioForm: FormGroup;
   public modalRef: BsModalRef;
-  public modo: string;
+  private modo: string;
   
   public funcionarios: Funcionario[];
   public setores: Setor[];
@@ -31,22 +32,22 @@ export class FuncionariosComponent implements OnInit {
     private setorService: SetorService, 
     private escalaService: EscalaService, 
     private modalService: BsModalService){
-    this.criarForm();
+    this.formFuncionario();
   }
   
   ngOnInit() {
     this.carregarFuncionarios();
   }
   
-  criarForm() {
+  formFuncionario() {
     this.funcionarioForm = this.fb.group({
       id: [''],
-      nome: [''],
-      sobrenome: [''],
-      dataAdmissao: [''],
-      setorId: [''],
-      escalaId: [''],
-      custoDiarioVT: [''],
+      nome: ['', Validators.required],
+      sobrenome: ['', Validators.required],
+      dataAdmissao: ['', Validators.required],
+      setorId: ['', Validators.required],
+      escalaId: ['', Validators.required],
+      custoDiarioVT: ['', Validators.required],
     });
   }
   
@@ -101,7 +102,29 @@ export class FuncionariosComponent implements OnInit {
     this.abrirModal(template);
   }
   
+  selecionarFuncionario(funcionario: Funcionario, template: TemplateRef<any>){
+    this.funcionarioSelecionado = funcionario;
+    this.funcionarioForm.patchValue(this.funcionarioSelecionado);
+    this.abrirModal(template);
+  }
+    
+  excluirFuncionario(id: number){
+    this.funcionarioService.delete(id).subscribe((model: any) => {
+      console.log(model);
+      this.modalRef.hide();
+      this.carregarFuncionarios();
+    },
+    (erro: any) => {
+      console.error(erro);
+    });
+  }
+  
   abrirModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  
+  confirmacao(template: TemplateRef<any>, funcionario: Funcionario) {
+    this.funcionarioSelecionado = funcionario;
     this.modalRef = this.modalService.show(template);
   }
   
@@ -117,28 +140,13 @@ export class FuncionariosComponent implements OnInit {
     });
   }
     
-  voltar(){
+  voltar() {
     this.funcionarioSelecionado = null;
   }
     
-  submit(){
+  submit() {
     this.modalRef.hide();
     this.salvar(this.funcionarioForm.value);
   }
-    
-  selecionarFuncionario(funcionario: Funcionario, template: TemplateRef<any>){
-    this.funcionarioSelecionado = funcionario;
-    this.funcionarioForm.patchValue(this.funcionarioSelecionado);
-    this.abrirModal(template);
-  }
-    
-  excluirFuncionario(id: number){
-    this.funcionarioService.delete(id).subscribe((model: any) => {
-      console.log(model);
-      this.carregarFuncionarios();
-    },
-    (erro: any) => {
-      console.error(erro);
-      });
-    }
-  }
+
+}

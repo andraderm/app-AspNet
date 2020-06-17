@@ -1,12 +1,14 @@
 <div class="container">
     
+    <app-titulo [titulo]="titulo"></app-titulo>
+    
     <div class="container">
         <div class="row">
-            <div class="mr-auto">
-                <app-titulo [titulo]="titulo"></app-titulo>
-            </div> 
             <div>
-                <button type="button" class="btn btn-success btn-sm mt-2" (click)="novoFuncionario(template)">Cadastrar funcionário</button>
+                <button type="button" class="btn btn-success btn-sm mt-2 mb-2" (click)="novoFuncionario(template)">Cadastrar Funcionário</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btn-sm m-2" (click)="lgModal.show()">Relatório de Despesas</button>
             </div>
         </div>
     </div>
@@ -35,12 +37,24 @@
                 <td>{{funcionario.custoDiarioVT | currency: 'BRL' : 'symbol' : '1.2'}}</td>
                 <td>
                     <button type="button" class="btn btn-success btn-sm mr-2" (click)="selecionarFuncionario(funcionario, template)"><i class="fas fa-pen"></i></button>
-                    <button type="button" class="btn btn-danger btn-sm" (click)="excluirFuncionario(funcionario.id)"><i class="far fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="confirmacao(template_confirmacao, funcionario)"><i class="far fa-trash-alt"></i></button>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+
+<!-- TEMPLATES -->
+<ng-template #template_confirmacao>
+    <div class="modal-body text-center">
+        <p>Deseja excluir o funcionário {{funcionarioSelecionado.nome}} {{funcionarioSelecionado.sobrenome}}?</p>
+        <button type="button" class="btn btn-default" (click)="excluirFuncionario(funcionarioSelecionado.id)">Sim</button>
+        <button type="button" class="btn btn-primary" (click)="modalRef.hide()">Não</button>
+    </div>        
+    <!-- (click)="excluirFuncionario(funcionario.id) -->
+</ng-template>
+
 
 <ng-template #template>
     <div class="modal-header">
@@ -62,7 +76,7 @@
             <div class="form-group">
                 <label for="Sobrenome">Data de Admissão:</label>
                 <div class="input-group-append">
-                    <input type="date" placeholder="Data de Admissão" formControlName="dataAdmissao" class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }">
+                    <input type="text" placeholder="Data de Admissão" formControlName="dataAdmissao" class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }">
                     <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
                 </div>
             </div>
@@ -86,7 +100,7 @@
                 <hr>
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-1" role="group" aria-label="First group">
-                        <button class="btn btn-sm btn-success" (click)="submit()">Salvar</button>            
+                        <button class="btn btn-sm btn-success" [disabled]="!funcionarioForm.valid" (click)="submit()">Salvar</button>            
                     </div>
                     <div class="btn-group mr-1 ml-2" role="group" aria-label="Second group">
                         <button class="btn btn-sm btn-danger" aria-label="Close" (click)="modalRef.hide()">Fechar</button>            
@@ -97,3 +111,19 @@
     </div>
 </ng-template>
 
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Relatórios de Despesas</h4>
+                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-despesas></app-despesas>
+            </div>
+        </div>
+    </div>
+</div>

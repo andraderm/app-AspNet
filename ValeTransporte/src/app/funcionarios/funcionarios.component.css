@@ -5,3 +5,12 @@ table {
 span {
   margin-left: 6px;
 }
+
+.modal-body {
+  height: 80vh;
+}
+
+.btn-relatorios {
+  border-bottom: 2px solid thistle;
+  padding-bottom: 14px;
+}

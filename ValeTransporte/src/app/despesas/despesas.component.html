@@ -1,1 +1,48 @@
-<app-titulo [titulo]="titulo"></app-titulo>
+<tabset #staticTabs>
+    <tab heading="Relatório Mensal">
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-sm-8">
+                    <form [formGroup]="relatorioForm">
+                        <div class="row">
+                            <div class="col">
+                                <label for="Mes">Mês:</label><br>
+                                <select class="custom-select" formControlName="mes">
+                                    <option value="1">Janeiro</option>
+                                    <option value="2">Fevereiro</option>
+                                    <option value="3">Março</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Maio</option>
+                                    <option value="6">Junho</option>
+                                    <option value="7">Julho</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Setembro</option>
+                                    <option value="10">Outubro</option>
+                                    <option value="11">Novembro</option>
+                                    <option value="12">Dezembro</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="Ano">Ano:</label><br>
+                                <input class="form-control" type="number" value="2020" formControlName="ano"> 
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-4 mt-3">
+                    <button class="btn btn-info" (click)="gerar()">Gerar Relatório</button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <div class="input-group-append">
+                        <p *ngIf="relatorioMes">Despesa: {{relatorioMes.despesaMensal}}</p>
+                    </div>          
+                </div>
+            </div>
+        </div>
+    </tab>
+    <tab heading="Static Title 1">Static content 1
+        
+    </tab>
+</tabset>
