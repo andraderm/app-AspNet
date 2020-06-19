@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Despesa } from '../models/Despesa';
+import { DespesaFuncionario } from '../models/DespesaFuncionario';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,20 @@ export class DespesasService {
     return this.http.get<Despesa[]>(`${this.baseUrl}`);
   }
 
-  getByData(ano: number, mes: number): Observable<Despesa> {
-    return this.http.get<Despesa>(`${this.baseUrl}/${ano}/${mes}`);
+  getByData(dataInicial: string, dataFinal: string): Observable<Despesa> {
+    return this.http.get<Despesa>(`${this.baseUrl}/${dataInicial}/${dataFinal}`);
   }
 
-  delete(ano: number, mes: number) {
-    return this.http.delete(`${this.baseUrl}/${ano}/${mes}`);
+  getDespesaFuncionario(): Observable<DespesaFuncionario[]> {
+    return this.http.get<DespesaFuncionario[]>(`${this.baseUrl}/df`);
   }
 
-  post(ano: number, mes: number) {
-    return this.http.post(`${this.baseUrl}/${ano}/${mes}`, null);
+  delete(dataInicial: string, dataFinal: string) {
+    return this.http.delete(`${this.baseUrl}/${dataInicial}/${dataFinal}`);
+  }
+
+  post(dataInicial: string, dataFinal: string) {
+    return this.http.post(`${this.baseUrl}/${dataInicial}/${dataFinal}`, null);
   }
 
 }

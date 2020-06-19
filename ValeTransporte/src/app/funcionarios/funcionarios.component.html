@@ -1,46 +1,45 @@
 <div class="container">
-    
-    <app-titulo [titulo]="titulo"></app-titulo>
-    
-    <div class="container">
-        <div class="row">
-            <div>
-                <button type="button" class="btn btn-success btn-sm mt-2 mb-2" (click)="novoFuncionario(template)">Cadastrar Funcionário</button>
-            </div>
+    <div class="row">
+        <app-titulo [titulo]="titulo"></app-titulo>
+    </div>
+    <div class="row">
+        <div>
+            <button type="button" class="btn btn-success btn-sm mt-2 mb-2" (click)="novoFuncionario(template)">Cadastrar Funcionário</button>
         </div>
     </div>
-    
-    <table class="table text-center">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col-md-1">#</th>
-                <th scope="col-md-2">Nome</th>
-                <th scope="col-md-2">Sobrenome</th>
-                <th scope="col-md-2">Data de Admissão</th>
-                <th scope="col-md-2">Setor</th>
-                <th scope="col-md-1">Escala</th>
-                <th scope="col-md-1">Custo com VT</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let funcionario of funcionarios">
-            <tr>
-                <th scope="row">
-                    {{funcionario.id}}
-                </th>
-                <td>{{funcionario.nome}}</td>
-                <td>{{funcionario.sobrenome}}</td>
-                <td>{{funcionario.dataAdmissao | date:'longDate'}}</td>
-                <td>{{funcionario.setor}}</td>
-                <td>{{funcionario.escala}}</td>
-                <td>{{funcionario.custoDiarioVT | currency: 'BRL' : 'symbol' : '1.2'}}</td>
-                <td>
-                    <button type="button" class="btn btn-success btn-sm mr-2" (click)="selecionarFuncionario(funcionario, template)"><i class="fas fa-pen"></i></button>
-                    <button type="button" class="btn btn-danger btn-sm" (click)="confirmacao(template_confirmacao, funcionario)"><i class="far fa-trash-alt"></i></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Sobrenome</th>
+                        <th scope="col">Data de Admissão</th>
+                        <th scope="col">Setor</th>
+                        <th scope="col">Escala</th>
+                        <th scope="col">Custo com VT</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let funcionario of funcionarios">
+                    <tr>
+                        <th>{{funcionario.id}}</th>
+                        <td>{{funcionario.nome}}</td>
+                        <td>{{funcionario.sobrenome}}</td>
+                        <td>{{funcionario.dataAdmissao | date:'longDate'}}</td>
+                        <td>{{funcionario.setor}}</td>
+                        <td>{{funcionario.escala}}</td>
+                        <td>{{funcionario.custoDiarioVT | currency: 'BRL' : 'symbol' : '1.2'}}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm mr-2" (click)="selecionarFuncionario(funcionario, template)"><i class="fas fa-pen"></i></button>
+                            <button type="button" class="btn btn-danger btn-sm" (click)="confirmacao(template_confirmacao, funcionario)"><i class="far fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 

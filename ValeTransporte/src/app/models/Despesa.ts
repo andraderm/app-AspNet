@@ -1,12 +1,17 @@
+import { DespesaFuncionario } from './DespesaFuncionario';
+
 export class Despesa {
 
     id: number;
-    dataReferencia: Date;
-    despesaMensal: number;
+    dataInicial: Date;
+    dataFinal: Date;
+    valorTotal: number;
+    despesaFuncionario: DespesaFuncionario;
 
     constructor() {
         this.id = 0;
-        this.dataReferencia = null;
-        this.despesaMensal = 0.0;
+        this.dataInicial = null;
+        this.dataFinal = null;
+        this.valorTotal = 0.0;
     }
 }

@@ -1,5 +1,10 @@
+.container {
+  padding-top: 15vh;
+}
+
 table {
   width: 100%;
+  background-color: white;
 }
 
 span {

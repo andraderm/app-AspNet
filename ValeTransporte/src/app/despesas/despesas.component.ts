@@ -3,11 +3,13 @@ import { DespesasService } from './despesas.service';
 import { Despesa } from '../models/Despesa';
 import { FuncionarioService } from '../funcionarios/funcionario.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DataRelatorio } from '../models/DataRelatorio';
 import { Funcionario } from '../models/Funcionario';
 import { FuncionariosComponent } from '../funcionarios/funcionarios.component';
 import { Setor } from '../models/setor';
 import { SetorService } from '../setor/setor.service';
+import { DespesaFuncionario } from '../models/DespesaFuncionario';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
 
 @Component({
   selector: 'app-despesas',
@@ -16,23 +18,32 @@ import { SetorService } from '../setor/setor.service';
 })
 export class DespesasComponent implements OnInit {
   
-  public titulo = 'Relatórios';
+  public titulo = 'Relatório';
+
   public despesas: Despesa[];
   public relatorioMes: Despesa;
   public relatorioForm: FormGroup;
+  public datas: Date[] = [];
+  public despesasFuncionarios: DespesaFuncionario[];
+  public custoIndividual: number[];
+  
+
   public funcionarios: Funcionario[];
   public setores: Setor[];
-  private modo = 'post';
   private funcComp: FuncionariosComponent;
   
   constructor(private formb: FormBuilder, private despesaService: DespesasService,
-    private funcionarioService: FuncionarioService, private setorService: SetorService) {
+    private funcionarioService: FuncionarioService, private setorService: SetorService,
+    private localeService: BsLocaleService) {
+      defineLocale('pt-br', ptBrLocale);
+    
+    this.localeService.use('pt-br'); 
     this.formRelatorio();
   }
   
   ngOnInit() {
-    this.carregarRelatorios();
     this.carregarFuncionarios();
+    this.carregarDespesasFuncionarios();
   }
 
   carregarFuncionarios() {
@@ -61,10 +72,10 @@ export class DespesasComponent implements OnInit {
       });
     });
   }
-  
-  carregarRelatorios() {
-    this.despesaService.getAll().subscribe((despesas: Despesa[]) => {
-      this.despesas = despesas;
+
+  carregarDespesasFuncionarios() {
+    this.despesaService.getDespesaFuncionario().subscribe((df: DespesaFuncionario[]) => {
+      this.despesasFuncionarios = df;
     },
     (erro: any) => {
       console.error(erro);
@@ -73,29 +84,29 @@ export class DespesasComponent implements OnInit {
   
   formRelatorio() {
     this.relatorioForm = this.formb.group({
-      ano: ['', Validators.required],
-      mes: ['', Validators.required],
+      datas: [Validators.required],
     });
   }
   
   gerar() {
-    this.verificacao(this.relatorioForm.value);
+    this.datas = this.relatorioForm.value.datas;
+    this.criarRelatorio();
   }
   
-  verificacao(data: DataRelatorio) {
-    this.criarRelatorio(data);
-  }
-  
-  criarRelatorio(data: DataRelatorio){
-    this.despesaService.post(data.ano, data.mes).subscribe((desp: Despesa) => {
-      this.carregarRelatorios();
-      this.despesaService.getByData(data.ano, data.mes).subscribe((despesa: Despesa) => {
+  criarRelatorio(){
+    this.despesaService.post(this.datas[0].toISOString().substring(0, 10), this.datas[1].toISOString().substring(0, 10)).subscribe((desp: Despesa) => {
+      this.carregarDespesasFuncionarios();
+      this.despesaService.getByData(this.datas[0].toISOString().substring(0, 10), this.datas[1].toISOString().substring(0, 10)).subscribe((despesa: Despesa) => {
         this.relatorioMes = despesa;
       });
     },
     (erro: any) => {
       console.error(erro);
     })
+  }
+
+  custoFuncionario(funcionario: Funcionario, relatorio: Despesa){
+    return funcionario.custoDiarioVT * this.despesasFuncionarios.find(x => x.funcionarioId == funcionario.id && x.despesaId == relatorio.id).diasTrabalhados;
   }
   
 }
