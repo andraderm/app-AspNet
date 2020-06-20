@@ -4,6 +4,7 @@
 
 .informacao {
   margin-top: 25px;
+  margin-bottom: 20px;
 }
 
 .relatorio {
@@ -12,8 +13,11 @@
     justify-items: center;
 }
 
-.Periodo {
-  display: grid;
-  align-content: center;
-  justify-items: left;
+.periodoInicial, .periodoFinal {
+  padding-left: 0;
+}
+
+.calendario {
+  width: 320px;
+  text-align: center;
 }

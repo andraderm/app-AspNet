@@ -1,16 +1,28 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-5">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="container">
-    <a routerLink="dashboard" class="navbar-brand">Controle de Despesas</a>
+    <h2 class="navbar-brand">Controle de Despesas</h2>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav mr-auto" dropdown>
         <li class="nav-item" routerLinkActive="active">
           <a routerLink="funcionarios" class="nav-link">Funcionarios <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a routerLink="relatorios" class="nav-link">Relatório <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav" dropdown>
+        <li class="nav-item dropdown">
+          <a id="button-basic" dropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
+            Feinir
+          </a>
+          <div id="dropdown-basic" *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a routerLink="perfil" class="dropdown-item">Perfil</a>
+            <a class="dropdown-item" href="#">Sair</a>
+          </div>
         </li>
       </ul>
     </div>

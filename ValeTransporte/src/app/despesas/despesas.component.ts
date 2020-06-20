@@ -20,12 +20,12 @@ export class DespesasComponent implements OnInit {
   
   public titulo = 'Relatório';
 
-  public despesas: Despesa[];
+  public despesas: Despesa[] = [];
   public relatorioMes: Despesa;
   public relatorioForm: FormGroup;
-  public datas: Date[] = [];
-  public despesasFuncionarios: DespesaFuncionario[];
-  public custoIndividual: number[];
+  public datas: string[] = [];
+  public despesasFuncionarios: DespesaFuncionario[] = [];
+  public custoIndividual: number;
   
 
   public funcionarios: Funcionario[];
@@ -43,13 +43,22 @@ export class DespesasComponent implements OnInit {
   
   ngOnInit() {
     this.carregarFuncionarios();
-    this.carregarDespesasFuncionarios();
+    this.carregarDespesas();
   }
 
   carregarFuncionarios() {
     this.funcionarioService.getAll().subscribe((funcionarios: Funcionario[]) => {
       this.funcionarios = funcionarios;
       this.carregarSetores(funcionarios);
+    },
+    (erro: any) => {
+      console.error(erro);
+    });
+  }
+
+  carregarDespesas() {
+    this.despesaService.getAll().subscribe((despesas: Despesa[]) => {
+      this.despesas = despesas;
     },
     (erro: any) => {
       console.error(erro);
@@ -73,9 +82,13 @@ export class DespesasComponent implements OnInit {
     });
   }
 
-  carregarDespesasFuncionarios() {
+  carregarDespesasFuncionarios(relatorio: Despesa) {
     this.despesaService.getDespesaFuncionario().subscribe((df: DespesaFuncionario[]) => {
-      this.despesasFuncionarios = df;
+      this.despesasFuncionarios = df.filter(x => x.despesaId == relatorio.id);
+      this.despesasFuncionarios.forEach(df => {
+        df.funcionario = this.funcionarios.find(x => x.id == df.funcionarioId);
+        df.despesa = this.despesas.find(x => x.id == df.despesaId);
+      });
     },
     (erro: any) => {
       console.error(erro);
@@ -84,29 +97,27 @@ export class DespesasComponent implements OnInit {
   
   formRelatorio() {
     this.relatorioForm = this.formb.group({
-      datas: [Validators.required],
+      dataInicial: [Validators.required],
+      dataFinal: [Validators.required],
     });
   }
   
   gerar() {
-    this.datas = this.relatorioForm.value.datas;
+    this.datas[0] = this.relatorioForm.value.dataInicial;
+    this.datas[1] = this.relatorioForm.value.dataFinal;
     this.criarRelatorio();
   }
   
   criarRelatorio(){
-    this.despesaService.post(this.datas[0].toISOString().substring(0, 10), this.datas[1].toISOString().substring(0, 10)).subscribe((desp: Despesa) => {
-      this.carregarDespesasFuncionarios();
-      this.despesaService.getByData(this.datas[0].toISOString().substring(0, 10), this.datas[1].toISOString().substring(0, 10)).subscribe((despesa: Despesa) => {
+    this.despesaService.post(this.datas[0], this.datas[1]).subscribe((desp: Despesa) => {
+      this.despesaService.getByData(this.datas[0], this.datas[1]).subscribe((despesa: Despesa) => {
         this.relatorioMes = despesa;
+        this.carregarDespesasFuncionarios(this.relatorioMes);
       });
     },
     (erro: any) => {
       console.error(erro);
     })
   }
-
-  custoFuncionario(funcionario: Funcionario, relatorio: Despesa){
-    return funcionario.custoDiarioVT * this.despesasFuncionarios.find(x => x.funcionarioId == funcionario.id && x.despesaId == relatorio.id).diasTrabalhados;
-  }
-  
 }
+
