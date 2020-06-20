@@ -5,3 +5,13 @@ nav {
     align-items: left;
     align-content: left;
 }
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-link:hover {
+    background-color: whitesmoke;
+    padding-left: 18px;
+}

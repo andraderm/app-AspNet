@@ -11,7 +11,7 @@
         <div class="table-responsive">
             <table class="table text-center">
                 <thead class="thead-dark">
-                    <tr>
+                    <tr class="h6">
                         <th>#</th>
                         <th scope="col">Nome</th>
                         <th scope="col">Sobrenome</th>
@@ -80,13 +80,13 @@
             <div class="form-group">
                 <label for="Setor">Setor:</label>
                 <select class="custom-select" formControlName="setorId">
-                    <option *ngFor="let setor of setores" [ngValue]="setor.id">{{setor.nome}}</option>
+                    <option *ngFor="let setor of setores" [ngValue]="setor">{{setor.nome}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="Setor">Escala de trabalho:</label>
                 <select class="custom-select" formControlName="escalaId">
-                    <option *ngFor="let escala of escalas" [ngValue]="escala.id">{{escala.escalaTrabalho}}</option>
+                    <option *ngFor="let escala of escalas" [ngValue]="escala">{{escala.escalaTrabalho}}</option>
                 </select>
             </div>
             <div class="form-group">

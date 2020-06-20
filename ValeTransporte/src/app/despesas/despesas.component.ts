@@ -18,7 +18,7 @@ import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
 })
 export class DespesasComponent implements OnInit {
   
-  public titulo = 'Relatório';
+  public titulo = 'Relatórios';
 
   public despesas: Despesa[] = [];
   public relatorioMes: Despesa;

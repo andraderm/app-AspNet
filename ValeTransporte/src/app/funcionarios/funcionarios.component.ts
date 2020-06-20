@@ -44,8 +44,8 @@ export class FuncionariosComponent implements OnInit {
       nome: ['', Validators.required],
       sobrenome: ['', Validators.required],
       dataAdmissao: ['', Validators.required],
-      setorId: ['', Validators.required],
-      escalaId: ['', Validators.required],
+      setor: ['', Validators.required],
+      escala: ['', Validators.required],
       custoDiarioVT: ['', Validators.required],
     });
   }

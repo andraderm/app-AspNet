@@ -2,55 +2,61 @@
     
     <app-titulo [titulo]="titulo"></app-titulo>
     
-    <div class="container">
-        <div class="row informacao">
-            <h5>Selecione o período do relatório:</h5>
-        </div>
-        <form [formGroup]="relatorioForm">
-        <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-xl-5 periodoInicial">
-                    <h6>Data Inicial:</h6>
-                    <input type="date" class="form-control mb-3 calendario" placeholder="dd/mm/yyyy" formControlName="dataInicial"/>
+    <div class="tabset">
+        <tabset>
+            <tab heading="Gastos com Vale Transporte" id="tab1">
+                <div class="container">
+                    <div class="row informacao">
+                        <h5>Selecione o período do relatório:</h5>
+                    </div>
+                    <form [formGroup]="relatorioForm">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-xl-5 periodoInicial">
+                                <h6>Data Inicial:</h6>
+                                <input type="date" class="form-control mb-3 calendario" placeholder="dd/mm/yyyy" formControlName="dataInicial"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-xl-5 periodoFinal">
+                                <h6>Data Final:</h6>
+                                <input type="date" class="form-control mb-3 calendario" placeholder="dd/mm/yyyy" formControlName="dataFinal"/>
+                            </div>
+                            <div class="col-xs-12 col-2 col-sm-2 col-md-2 col-xl-2 relatorio">
+                                <button class="btn btn-info btn-lg" (click)="gerar()">Gerar Relatório</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div *ngIf="relatorioMes" class="input-group-append m-2">
+                                <h5>Valor Total: {{relatorioMes.valorTotal | currency: 'BRL' : 'symbol' : '1.2'}}
+                                </h5>
+                            </div>          
+                        </div>
+                    </div>
+                    <div *ngIf="relatorioMes" class="row">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Funcionário</th>
+                                    <th scope="col">Setor</th>
+                                    <th scope="col">Custo Individual</th>
+                                    <th scope="col">Fração da Despesa</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let func of despesasFuncionarios">
+                                <tr>
+                                    <td>{{func.funcionario.nome}} {{func.funcionario.sobrenome}}</td>
+                                    <td>{{func.funcionario.setor}}</td>
+                                    <td>{{func.custoIndividual | currency: 'BRL' : 'symbol' : '1.2'}}</td>
+                                    <td scope="row">
+                                        <progressbar [max]="relatorioMes.valorTotal" [value]="func.custoIndividual"></progressbar>
+                                        <small><em><b>Porcentagem do custo total: {{(100 * func.custoIndividual / relatorioMes.valorTotal) | number: '1.2'}}%</b></em></small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-xl-5 periodoFinal">
-                    <h6>Data Final:</h6>
-                    <input type="date" class="form-control mb-3 calendario" placeholder="dd/mm/yyyy" formControlName="dataFinal"/>
-                </div>
-                <div class="col-xs-12 col-2 col-sm-2 col-md-2 col-xl-2 relatorio">
-                    <button class="btn btn-info btn-lg" (click)="gerar()">Gerar Relatório</button>
-                </div>
-            </div>
-        </form>
-        <div class="row">
-            <div class="col-sm-12">
-                <div *ngIf="relatorioMes" class="input-group-append m-2">
-                    <h5>Valor Total: {{relatorioMes.valorTotal | currency: 'BRL' : 'symbol' : '1.2'}}
-                    </h5>
-                </div>          
-            </div>
-        </div>
-        <div *ngIf="relatorioMes" class="row">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Funcionário</th>
-                        <th scope="col">Setor</th>
-                        <th scope="col">Custo Individual</th>
-                        <th scope="col">Fração da Despesa</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let func of despesasFuncionarios">
-                    <tr>
-                        <td>{{func.funcionario.nome}} {{func.funcionario.sobrenome}}</td>
-                        <td>{{func.funcionario.setor}}</td>
-                        <td>{{func.custoIndividual | currency: 'BRL' : 'symbol' : '1.2'}}</td>
-                        <td scope="row">
-                            <progressbar [max]="relatorioMes.valorTotal" [value]="func.custoIndividual"></progressbar>
-                            <small><em><b>Porcentagem do custo total: {{(100 * func.custoIndividual / relatorioMes.valorTotal) | number: '1.2'}}%</b></em></small>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            </tab>
+        </tabset>
     </div>
 </div>
