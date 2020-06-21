@@ -3,7 +3,7 @@
         <app-titulo [titulo]="titulo"></app-titulo>
     </div>
     <div class="row">
-        <div>
+        <div class="col mr-auto cadastro">
             <button type="button" class="btn btn-success btn-sm mt-2 mb-2" (click)="novoFuncionario(template)">Cadastrar Funcionário</button>
         </div>
     </div>
@@ -55,7 +55,7 @@
 
 <ng-template #template>
     <div class="modal-header">
-        <app-titulo [titulo]="(funcionarioSelecionado.id === 0 ? 'Novo Funcionário' : 'Funcionário Cód.: ' + funcionarioSelecionado.id)"></app-titulo>
+        <h3>{{(funcionarioSelecionado.id === 0 ? 'Novo Funcionário' : 'Funcionário Cód.: ' + funcionarioSelecionado.id)}}</h3>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -107,20 +107,3 @@
         </form>
     </div>
 </ng-template>
-
-
-<!-- <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title pull-left">Relatórios de Despesas</h4>
-                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <app-despesas></app-despesas>
-            </div>
-        </div>
-    </div>
-</div> -->

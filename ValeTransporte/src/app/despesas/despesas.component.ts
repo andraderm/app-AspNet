@@ -26,7 +26,6 @@ export class DespesasComponent implements OnInit {
   public datas: string[] = [];
   public despesasFuncionarios: DespesaFuncionario[] = [];
   public custoIndividual: number;
-  
 
   public funcionarios: Funcionario[];
   public setores: Setor[];
@@ -119,5 +118,6 @@ export class DespesasComponent implements OnInit {
       console.error(erro);
     })
   }
+
 }
 

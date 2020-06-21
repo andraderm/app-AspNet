@@ -25,7 +25,7 @@ export class FuncionariosComponent implements OnInit {
   public funcionarios: Funcionario[];
   public setores: Setor[];
   public escalas: Escala[];
-    
+   
   constructor(private fb: FormBuilder, 
     private funcionarioService: FuncionarioService, 
     private setorService: SetorService, 
